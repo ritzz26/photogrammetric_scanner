@@ -13,11 +13,13 @@ UP: Cycle through options for number of exposures per revolution.
 */
 
 #include "multiCameraIrControl.h"
+#include <Servo.h>
 
 const int stepsPerRevolution = 200 * 64; // change this to fit the number of steps per revolution for your motor
 
 Stepper myStepper(stepsPerRevolution, 20, 21); // initialize stepper
 // Enable pin is 19.  Step pin is 20.  Direction pin is 21
+Servo cameraServo;
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // pin assignments for SainSmart LCD Keypad Shield
 
@@ -36,6 +38,9 @@ unsigned long currentTime;                  // current time
 const long preWait = 2000;                  // pre exposure pause in milis.  Allows the specimen to settle before exposure.
 const long postWait = 2000;                 // post exposure pause in milis.  Allows time for the exposure to finish before moving.
 int waitFlag = 0;                           // 0=ready to move 1=pre-exposure wait 2=post-exposure wait
+const int tiltAngles[] = {10, 20, 30, 40, 50};
+const int numStepUp = 10;
+const int numRotation = 10;
 
 Nikon Camera(53); // change Nikon to any other supported brand
 
@@ -208,20 +213,24 @@ void shutter(){};
 
 void move_camera_up(){};
 
-void tilt_camera(){};
+void tilt_camera(int angle)
+{
+    cameraServo.write(angle);
+    delay(400);
+}
 
 void auto_scan()
 {
     move_camera_to_bottom();
-    for (int i = 0; i < num_step_up; i++)
+    for (int i = 0; i < numStepUp; i++)
     {
-        for (int j = 0; j < num_rotation; j++)
+        for (int j = 0; j < numRotation; j++)
         {
             rotate_plate_once();
             delay(100);
             shutter();
         }
         move_camera_up();
-        tilt_camera();
+        tilt_camera(tiltAngles[j]);
     }
 }
