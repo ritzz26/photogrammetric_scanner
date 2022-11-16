@@ -41,6 +41,7 @@ int waitFlag = 0;                           // 0=ready to move 1=pre-exposure wa
 const int tiltAngles[] = {10, 20, 30, 40, 50};
 const int numStepUp = 10;
 const int numRotation = 10;
+const int cameraOrigAngle = 0;
 
 Nikon Camera(53); // change Nikon to any other supported brand
 
@@ -205,7 +206,12 @@ void loop()
     }
 }
 
-void move_camera_to_bottom(){};
+void move_camera_to_bottom()
+{
+    // TODO: move camera to bottom
+    // set camera to original angle
+    cameraServo.write(cameraOrigAngle);
+}
 
 void rotate_plate_once(){};
 
