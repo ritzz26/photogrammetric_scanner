@@ -199,3 +199,29 @@ void loop()
         }
     }
 }
+
+void move_camera_to_bottom(){};
+
+void rotate_plate_once(){};
+
+void shutter(){};
+
+void move_camera_up(){};
+
+void tilt_camera(){};
+
+void auto_scan()
+{
+    move_camera_to_bottom();
+    for (int i = 0; i < num_step_up; i++)
+    {
+        for (int j = 0; j < num_rotation; j++)
+        {
+            rotate_plate_once();
+            delay(100);
+            shutter();
+        }
+        move_camera_up();
+        tilt_camera();
+    }
+}
