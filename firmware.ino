@@ -21,6 +21,13 @@ UP: Cycle through options for number of exposures per revolution.
 #define MS2 5
 #define EN  6
 
+#define stp_2 11
+#define dir_2 10
+#define MS1_2 12
+#define MS2_2 9
+#define EN_2 8
+
+
 const int stepsPerRevolution = 200 * 64; // change this to fit the number of steps per revolution for your motor
 
 //Stepper myStepper(stepsPerRevolution, 20, 21); // initialize stepper
@@ -53,12 +60,22 @@ const int cameraOrigAngle = 0;
 
 void setup()
 {
+  //Pins for Stepper motor 1
   pinMode(stp, OUTPUT);
   pinMode(dir, OUTPUT);
   pinMode(MS1, OUTPUT);
   pinMode(MS2, OUTPUT);
   pinMode(EN, OUTPUT);
+
+  //Pins for Stepper motor 2
+  pinMode(stp, OUTPUT);
+  pinMode(dir, OUTPUT);
+  pinMode(MS1, OUTPUT);
+  pinMode(MS2, OUTPUT);
+  pinMode(EN, OUTPUT);
+
   resetEDPins(); //Set step, direction, microstep and enable pins to default states
+  resetEDPins_2();
 }
 
 void loop()
@@ -86,7 +103,17 @@ void move_camera_to_bottom()
   digitalWrite(dir, LOW);
 }
 
-void rotate_plate_once(){};
+void rotate_plate_once(){
+  digitalWrite(dir_2, LOW);
+  for(int x= 0; x<(Stepper1_rev*4); x++)  //Loop the stepping enough times for motion to be visible
+  {
+    digitalWrite(stp_2,HIGH); //Trigger one step
+    delay(1);
+    digitalWrite(stp_2,LOW); //Pull step pin low so it can be triggered again
+    delay(1);
+    //Iman likes 50 for delay
+  }
+};
 
 void shutter(){};
 
@@ -123,6 +150,7 @@ void auto_scan()
             shutter();
         }*/
         move_camera_up();
+        rotate_plate_once();//TEST
         //tilt_camera(tiltAngles[j]);
     }
     move_camera_to_bottom();
@@ -135,4 +163,13 @@ void resetEDPins()
   digitalWrite(MS1, LOW);
   digitalWrite(MS2, LOW);
   digitalWrite(EN, HIGH);
+}
+
+void resetEDPins_2()
+{
+  digitalWrite(stp_2, LOW);
+  digitalWrite(dir_2, LOW);
+  digitalWrite(MS1_2, LOW);
+  digitalWrite(MS2_2, LOW);
+  digitalWrite(EN_2, HIGH);
 }
