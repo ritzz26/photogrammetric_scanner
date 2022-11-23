@@ -59,8 +59,7 @@ const int cameraOrigAngle = 0;
 
 void setup()
 {
-    cameraServo.attach(9);
-    return;
+    cameraServo.attach(13);
 
     // Pins for Stepper motor 1
     pinMode(stp, OUTPUT);
@@ -98,8 +97,6 @@ void servo_rotate()
 
 void loop()
 {
-    servo_rotate();
-    return;
     digitalWrite(EN, LOW);
     digitalWrite(EN_2, LOW);
     auto_scan();
@@ -171,7 +168,8 @@ void auto_scan()
             shutter();
         }*/
         move_camera_up();
-        rotate_plate_once(); // TEST
+        servo_rotate();
+        //rotate_plate_once(); // TEST
         // tilt_camera(tiltAngles[j]);
     }
     // move_camera_to_bottom();
