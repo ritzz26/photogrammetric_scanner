@@ -31,7 +31,7 @@ const int stepsPerRevolution = 200 * 64; // change this to fit the number of ste
 
 // Stepper myStepper(stepsPerRevolution, 20, 21); // initialize stepper
 //  Enable pin is 19.  Step pin is 20.  Direction pin is 21
-// Servo cameraServo;
+Servo cameraServo;
 
 // LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // pin assignments for SainSmart LCD Keypad Shield
 
@@ -59,6 +59,9 @@ const int cameraOrigAngle = 0;
 
 void setup()
 {
+    cameraServo.attach(9);
+    return;
+
     // Pins for Stepper motor 1
     pinMode(stp, OUTPUT);
     pinMode(dir, OUTPUT);
@@ -77,8 +80,26 @@ void setup()
     resetEDPins_2();
 }
 
+void servo_rotate()
+{
+    int pos;
+    for (pos = 0; pos <= 180; pos += 1)
+    { // goes from 0 degrees to 180 degrees
+        // in steps of 1 degree
+        cameraServo.write(pos); // tell servo to go to position in variable 'pos'
+        delay(15);              // waits 15ms for the servo to reach the position
+    }
+    for (pos = 180; pos >= 0; pos -= 1)
+    {                           // goes from 180 degrees to 0 degrees
+        cameraServo.write(pos); // tell servo to go to position in variable 'pos'
+        delay(15);              // waits 15ms for the servo to reach the position
+    }
+}
+
 void loop()
 {
+    servo_rotate();
+    return;
     digitalWrite(EN, LOW);
     digitalWrite(EN_2, LOW);
     auto_scan();
