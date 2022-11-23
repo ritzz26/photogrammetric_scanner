@@ -19,7 +19,7 @@ UP: Cycle through options for number of exposures per revolution.
 #define dir 3
 #define MS1 4
 #define MS2 5
-#define EN  6
+#define EN 6
 
 #define stp_2 11
 #define dir_2 10
@@ -27,16 +27,15 @@ UP: Cycle through options for number of exposures per revolution.
 #define MS2_2 9
 #define EN_2 8
 
-
 const int stepsPerRevolution = 200 * 64; // change this to fit the number of steps per revolution for your motor
 
-//Stepper myStepper(stepsPerRevolution, 20, 21); // initialize stepper
-// Enable pin is 19.  Step pin is 20.  Direction pin is 21
-//Servo cameraServo;
+// Stepper myStepper(stepsPerRevolution, 20, 21); // initialize stepper
+//  Enable pin is 19.  Step pin is 20.  Direction pin is 21
+// Servo cameraServo;
 
-//LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // pin assignments for SainSmart LCD Keypad Shield
+// LiquidCrystal lcd(8, 9, 4, 5, 6, 7); // pin assignments for SainSmart LCD Keypad Shield
 
-//DFR_Key keypad; // initialize keypad
+// DFR_Key keypad; // initialize keypad
 
 int localKey = 0;
 int lastKey = 0;
@@ -56,34 +55,34 @@ const int numStepUp = 1;
 const int numRotation = 10;
 const int cameraOrigAngle = 0;
 
-//Nikon Camera(53); // change Nikon to any other supported brand
+// Nikon Camera(53); // change Nikon to any other supported brand
 
 void setup()
 {
-  //Pins for Stepper motor 1
-  pinMode(stp, OUTPUT);
-  pinMode(dir, OUTPUT);
-  pinMode(MS1, OUTPUT);
-  pinMode(MS2, OUTPUT);
-  pinMode(EN, OUTPUT);
+    // Pins for Stepper motor 1
+    pinMode(stp, OUTPUT);
+    pinMode(dir, OUTPUT);
+    pinMode(MS1, OUTPUT);
+    pinMode(MS2, OUTPUT);
+    pinMode(EN, OUTPUT);
 
-  //Pins for Stepper motor 2
-  pinMode(stp_2, OUTPUT);
-  pinMode(dir_2, OUTPUT);
-  pinMode(MS1_2, OUTPUT);
-  pinMode(MS2_2, OUTPUT);
-  pinMode(EN_2, OUTPUT);
+    // Pins for Stepper motor 2
+    pinMode(stp_2, OUTPUT);
+    pinMode(dir_2, OUTPUT);
+    pinMode(MS1_2, OUTPUT);
+    pinMode(MS2_2, OUTPUT);
+    pinMode(EN_2, OUTPUT);
 
-  resetEDPins(); //Set step, direction, microstep and enable pins to default states
-  resetEDPins_2();
+    resetEDPins(); // Set step, direction, microstep and enable pins to default states
+    resetEDPins_2();
 }
 
 void loop()
 {
-  digitalWrite(EN, LOW);
-  digitalWrite(EN_2, LOW);
-  auto_scan();
-  exit(1);
+    digitalWrite(EN, LOW);
+    digitalWrite(EN_2, LOW);
+    auto_scan();
+    exit(1);
 }
 
 int Step_Count = 0;
@@ -91,52 +90,52 @@ int Stepper1_rev = 200;
 
 void move_camera_to_bottom()
 {
-    //cameraServo.write(cameraOrigAngle);
+    // cameraServo.write(cameraOrigAngle);
     delay(100);
     digitalWrite(dir, HIGH);
-    for(int x= 0; x<(Stepper1_rev*4*Step_Count); x++)  //Loop the stepping enough times for motion to be visible
-  {
-    digitalWrite(stp,HIGH); //Trigger one step
-    delay(1);
-    digitalWrite(stp,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
-  }
-  digitalWrite(dir, LOW);
+    for (int x = 0; x < (Stepper1_rev * 4 * Step_Count); x++) // Loop the stepping enough times for motion to be visible
+    {
+        digitalWrite(stp, HIGH); // Trigger one step
+        delay(1);
+        digitalWrite(stp, LOW); // Pull step pin low so it can be triggered again
+        delay(1);
+    }
+    digitalWrite(dir, LOW);
 }
 
-void rotate_plate_once(){
-  digitalWrite(dir_2, LOW);
-  for(int x= 0; x<(Stepper1_rev*4); x++)  //Loop the stepping enough times for motion to be visible
-  {
-    digitalWrite(stp_2,HIGH); //Trigger one step
-    delay(1);
-    digitalWrite(stp_2,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
-    //Iman likes 50 for delay
-  }
+void rotate_plate_once()
+{
+    digitalWrite(dir_2, LOW);
+    for (int x = 0; x < (Stepper1_rev * 4); x++) // Loop the stepping enough times for motion to be visible
+    {
+        digitalWrite(stp_2, HIGH); // Trigger one step
+        delay(1);
+        digitalWrite(stp_2, LOW); // Pull step pin low so it can be triggered again
+        delay(1);
+        // Iman likes 50 for delay
+    }
 };
 
 void shutter(){};
 
+void move_camera_up()
+{
 
-
-void move_camera_up(){
-  
-  digitalWrite(dir, LOW);
-  for(int x= 0; x<(Stepper1_rev*4); x++)  //Loop the stepping enough times for motion to be visible
-  {
-    digitalWrite(stp,HIGH); //Trigger one step
-    delay(1);
-    digitalWrite(stp,LOW); //Pull step pin low so it can be triggered again
-    delay(1);
-    //Iman likes 50 for delay
-  }
-  Step_Count++;
+    digitalWrite(dir, LOW);
+    for (int x = 0; x < (Stepper1_rev * 4); x++) // Loop the stepping enough times for motion to be visible
+    {
+        digitalWrite(stp, HIGH); // Trigger one step
+        delay(1);
+        digitalWrite(stp, LOW); // Pull step pin low so it can be triggered again
+        delay(1);
+        // Iman likes 50 for delay
+    }
+    Step_Count++;
 };
 
 void tilt_camera(int angle)
 {
-    //cameraServo.write(angle);
+    // cameraServo.write(angle);
     delay(400);
 }
 
@@ -151,26 +150,26 @@ void auto_scan()
             shutter();
         }*/
         move_camera_up();
-        rotate_plate_once();//TEST
-        //tilt_camera(tiltAngles[j]);
+        rotate_plate_once(); // TEST
+        // tilt_camera(tiltAngles[j]);
     }
-    //move_camera_to_bottom();
+    // move_camera_to_bottom();
 }
 
 void resetEDPins()
 {
-  digitalWrite(stp, LOW);
-  digitalWrite(dir, LOW);
-  digitalWrite(MS1, LOW);
-  digitalWrite(MS2, LOW);
-  digitalWrite(EN, HIGH);
+    digitalWrite(stp, LOW);
+    digitalWrite(dir, LOW);
+    digitalWrite(MS1, LOW);
+    digitalWrite(MS2, LOW);
+    digitalWrite(EN, HIGH);
 }
 
 void resetEDPins_2()
 {
-  digitalWrite(stp_2, LOW);
-  digitalWrite(dir_2, LOW);
-  digitalWrite(MS1_2, LOW);
-  digitalWrite(MS2_2, LOW);
-  digitalWrite(EN_2, HIGH);
+    digitalWrite(stp_2, LOW);
+    digitalWrite(dir_2, LOW);
+    digitalWrite(MS1_2, LOW);
+    digitalWrite(MS2_2, LOW);
+    digitalWrite(EN_2, HIGH);
 }
