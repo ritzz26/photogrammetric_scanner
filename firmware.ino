@@ -68,11 +68,11 @@ void setup()
   pinMode(EN, OUTPUT);
 
   //Pins for Stepper motor 2
-  pinMode(stp, OUTPUT);
-  pinMode(dir, OUTPUT);
-  pinMode(MS1, OUTPUT);
-  pinMode(MS2, OUTPUT);
-  pinMode(EN, OUTPUT);
+  pinMode(stp_2, OUTPUT);
+  pinMode(dir_2, OUTPUT);
+  pinMode(MS1_2, OUTPUT);
+  pinMode(MS2_2, OUTPUT);
+  pinMode(EN_2, OUTPUT);
 
   resetEDPins(); //Set step, direction, microstep and enable pins to default states
   resetEDPins_2();
@@ -81,6 +81,7 @@ void setup()
 void loop()
 {
   digitalWrite(EN, LOW);
+  digitalWrite(EN_2, LOW);
   auto_scan();
   exit(1);
 }
@@ -153,7 +154,7 @@ void auto_scan()
         rotate_plate_once();//TEST
         //tilt_camera(tiltAngles[j]);
     }
-    move_camera_to_bottom();
+    //move_camera_to_bottom();
 }
 
 void resetEDPins()
